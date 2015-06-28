@@ -11,11 +11,6 @@ Route::get('/', 'PagesController@home');
 Route::get('projects/create/confirm', 'ProjectsController@confirm');
 Route::resource('projects', 'ProjectsController');
 
-Route::get('/db', function(){
-
-	return DB::select('select database();');
-
-});
 
 	/*
 	*	Autherntication

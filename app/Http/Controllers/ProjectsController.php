@@ -1,10 +1,8 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use App\Http\Requests\PrepareProjectRequest;
 use App\ProjectType;
-use Illuminate\Http\Request;
-use App;
+use App\ProjectsList;
 
 class ProjectsController extends Controller {
 
@@ -25,7 +23,7 @@ class ProjectsController extends Controller {
 
 	//show a page to create a new project request
 
-public function create()
+	public function create()
 	{
 		//get list of type of projects
 		$projects = ProjectType::lists('name', 'id');
@@ -33,16 +31,36 @@ public function create()
 		//load a view to create a new project
 		return view('projects.create', compact('projects'));
 	}
-	/* We don't need a confirm function at this point
 
-	public function confirm(Requests\PrepareProjectRequest $request)
+
+	public function confirm(PrepareProjectRequest $request)
 	{
 		return $request->all();
 	}
-	*/
-	public function store()
+
+	public function store(PrepareProjectRequest $request)
 	{
-		$ProjectsList = new ProjectsList;
+
+		// dd($request->requester_name);
+		// die($request->requester_name);
+
+
+// dd(\Auth::user()->id);
+// Mass assignment. This should not be used to reference important information such as user_id because people can enter a userID using PostMan
+		$ProjectsList = new ProjectsList([
+			'requester_name' => $request->requester_name,
+			'requester_email' => $request->requester_email,
+			'requester_phone' => $request->requester_phone,
+			'brief_description' => $request->brief_description
+		]);
+//when referencing User_id, Project Type - this is the best way to go. You are making laravale reference users and project types that exist
+		$ProjectsList->project_type()->associate(ProjectType::findOrFail($request->project_type));
+		$ProjectsList->user()->associate(\Auth::user());
+
+
 		$ProjectsList->save();
+
+	return \Redirect::route('/')
+    ->with('message', 'Thanks for contacting us!');
 	}
 }

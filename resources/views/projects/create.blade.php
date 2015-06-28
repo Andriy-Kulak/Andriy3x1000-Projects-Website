@@ -4,7 +4,7 @@
 
 	<h1 class="page-heading">Post a New Project</h1>
 
-	{!! Form::open() !!}
+	{!! Form::open(['method' => 'POST', 'action' => 'ProjectsController@store']) !!}
 
 	<div class="form-group">
 		{!! Form::label('project_type', 'Project/Inquiry Type:') !!}
@@ -32,7 +32,7 @@
 	</div>
 
 	<div class="form-group">
-		{!! Form::submit('Submit Project for Consideratio', ['class' =>'btn btn-primary form-control']) !!}
+		{!! Form::submit('Submit Project to Andriy!', ['class' =>'btn btn-primary form-control']) !!}
 	</div>
 
 	{!! Form::close() !!}
