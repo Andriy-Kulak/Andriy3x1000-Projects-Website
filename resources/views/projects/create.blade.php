@@ -18,7 +18,7 @@
 
 	<div class="form-group">
 		{!! Form::label('requester_email', 'Email we can reach you at:') !!}
-		{!! Form::text('requester_email', null, ['class' => 'form-control']) !!}
+		{!! Form::email('requester_email', null, ['class' => 'form-control', 'required' => true]) !!}
 	</div>
 
 	<div class="form-group">
